@@ -7,6 +7,8 @@ import { healthRouter } from './health.routes.js';
 import { moodRouter } from './mood.routes.js';
 import { journalRouter } from './journal.routes.js';
 import { dashboardRouter } from './dashboard.routes.js';
+import { appointmentRouter } from './appointment.routes.js';
+import { paymentRouter } from './payment.routes.js';
 
 const apiRouter = Router();
 
@@ -17,6 +19,8 @@ apiRouter.use('/admin', auditRouter);
 apiRouter.use('/moods', moodRouter);
 apiRouter.use('/journals', journalRouter);
 apiRouter.use('/dashboard', dashboardRouter);
+apiRouter.use('/appointments', appointmentRouter);
+apiRouter.use('/payments', paymentRouter);
 apiRouter.use('/', healthRouter);
 
 export const router = apiRouter;
