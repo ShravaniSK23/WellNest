@@ -1,0 +1,76 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "WellNest Mental Wellness Support Portal API",
+    "version": "1.0.0",
+    "description": "Production REST API contract for WellNest mental wellness platform."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000/api/v1",
+      "description": "Local Development Server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health Check Endpoint",
+        "responses": {
+          "200": { "description": "System Healthy" }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "User Account Registration",
+        "responses": {
+          "201": { "description": "User Account Created" }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "User Authentication Login",
+        "responses": {
+          "200": { "description": "Authentication Successful" }
+        }
+      }
+    },
+    "/users/me": {
+      "get": {
+        "summary": "Get Current User Profile",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "User Profile Returned" }
+        }
+      }
+    },
+    "/therapists/credentials": {
+      "post": {
+        "summary": "Upload Therapist Professional Credentials",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "201": { "description": "Credentials Uploaded" }
+        }
+      }
+    },
+    "/therapists/{id}/verify": {
+      "post": {
+        "summary": "Admin Verify Therapist Credentials",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Therapist Status Updated" }
+        }
+      }
+    }
+  }
+}
