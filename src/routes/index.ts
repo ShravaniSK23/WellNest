@@ -4,6 +4,9 @@ import { userRouter } from './user.routes.js';
 import { therapistRouter } from './therapist.routes.js';
 import { auditRouter } from './audit.routes.js';
 import { healthRouter } from './health.routes.js';
+import { moodRouter } from './mood.routes.js';
+import { journalRouter } from './journal.routes.js';
+import { dashboardRouter } from './dashboard.routes.js';
 
 const apiRouter = Router();
 
@@ -11,6 +14,9 @@ apiRouter.use('/auth', authRouter);
 apiRouter.use('/users', userRouter);
 apiRouter.use('/therapists', therapistRouter);
 apiRouter.use('/admin', auditRouter);
+apiRouter.use('/moods', moodRouter);
+apiRouter.use('/journals', journalRouter);
+apiRouter.use('/dashboard', dashboardRouter);
 apiRouter.use('/', healthRouter);
 
 export const router = apiRouter;
