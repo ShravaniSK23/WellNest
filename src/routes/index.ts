@@ -9,6 +9,8 @@ import { journalRouter } from './journal.routes.js';
 import { dashboardRouter } from './dashboard.routes.js';
 import { appointmentRouter } from './appointment.routes.js';
 import { paymentRouter } from './payment.routes.js';
+import { communityRouter } from './community.routes.js';
+import { moderationRouter } from './moderation.routes.js';
 
 const apiRouter = Router();
 
@@ -21,6 +23,8 @@ apiRouter.use('/journals', journalRouter);
 apiRouter.use('/dashboard', dashboardRouter);
 apiRouter.use('/appointments', appointmentRouter);
 apiRouter.use('/payments', paymentRouter);
+apiRouter.use('/community', communityRouter);
+apiRouter.use('/moderation', moderationRouter);
 apiRouter.use('/', healthRouter);
 
 export const router = apiRouter;
