@@ -12,6 +12,9 @@ const envSchema = z.object({
   MFA_ISSUER: z.string().default('WellNest'),
   LOG_LEVEL: z.string().default('info'),
   CORS_ORIGIN: z.string().default('http://localhost:5173'),
+  STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
+  DAILY_API_KEY: z.string().optional(),
 });
 
 const _env = envSchema.safeParse(process.env);

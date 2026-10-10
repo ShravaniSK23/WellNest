@@ -268,12 +268,33 @@
 - **Response `200 OK`**:
 ```json
 {
-  "videoRoomUrl": "https://wellnest.daily.co/session-apt-5544-3322",
-  "sessionToken": "ey...video_jwt...",
+  "appointmentId": "apt-5544-3322",
+  "videoRoomUrl": "https://wellnest.daily.co/apt-apt-5544-3322",
+  "sessionToken": "eyJhbGci...",
   "expiresAt": "2026-10-12T11:00:00Z"
 }
 ```
-- **Gating**: Returns `403 Forbidden` if requested $> 10$ minutes before scheduled start time (REQ-TS-16).
+- **Gating**: Returns `403 Forbidden` if requested $> 10$ minutes before scheduled start time (REQ-TS-16). Restricts room access and meeting tokens server-side using Daily (`DAILY_API_KEY`) or mock adapter.
+
+---
+
+### 4.6 Payment Webhook Listener
+- **Endpoint**: `POST /api/v1/payments/webhook`
+- **Auth**: Public / Webhook Signature Verified (`stripe-signature` header verified against raw request body using `STRIPE_WEBHOOK_SECRET`)
+- **Headers**: `stripe-signature` (Stripe HMAC signature) or `x-webhook-event-id` (mock event ID fallback)
+- **Request Body**: Raw JSON payload (e.g. Stripe `payment_intent.succeeded`, `charge.refunded`)
+- **Response `200 OK`**:
+```json
+{
+  "eventId": "evt_123456",
+  "eventType": "payment_intent.succeeded",
+  "processed": true,
+  "idempotent": false,
+  "message": "Event processed successfully"
+}
+```
+- **Idempotency**: Duplicate webhook event deliveries return `idempotent: true` without re-executing transactions.
+- **Provider Adapters**: Configured dynamically via environment variables (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `DAILY_API_KEY`). Defaults to Mock adapters for automated tests.
 
 ---
 

@@ -24,7 +24,13 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(express.json());
+app.use(
+  express.json({
+    verify: (req: any, _res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 
 // API Documentation Foundation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
