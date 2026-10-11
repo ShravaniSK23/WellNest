@@ -12,9 +12,11 @@ import { ForgotPasswordPage } from '../pages/auth/ForgotPasswordPage';
 import { ResetPasswordPage } from '../pages/auth/ResetPasswordPage';
 import { ProfilePage } from '../pages/profile/ProfilePage';
 
-// Shell Placeholders
-import { DashboardShell } from '../pages/placeholders/DashboardShell';
-import { MoodShell } from '../pages/placeholders/MoodShell';
+// Core Mental Wellness Feature Pages
+import { DashboardPage } from '../pages/dashboard/DashboardPage';
+import { MoodPage } from '../pages/mood/MoodPage';
+
+// Shell Placeholders for downstream roles/features
 import { CommunityShell } from '../pages/placeholders/CommunityShell';
 import { TherapistShell } from '../pages/placeholders/TherapistShell';
 import { ModeratorShell } from '../pages/placeholders/ModeratorShell';
@@ -55,10 +57,10 @@ export const AppRouter: React.FC = () => {
 
         {/* Help Seeker Specific Routes */}
         <Route element={<ProtectedRoute allowedRoles={['HELP_SEEKER']} />}>
-          <Route path="/dashboard" element={<DashboardShell />} />
-          <Route path="/moods" element={<MoodShell />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/moods" element={<MoodPage />} />
           <Route path="/community" element={<CommunityShell />} />
-          <Route path="/therapists" element={<DashboardShell />} />
+          <Route path="/therapists" element={<DashboardPage />} />
         </Route>
 
         {/* Therapist Specific Routes */}
