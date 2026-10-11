@@ -15,11 +15,11 @@ import { ProfilePage } from '../pages/profile/ProfilePage';
 // Core Mental Wellness Feature Pages
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import { MoodPage } from '../pages/mood/MoodPage';
+import { CommunityPage } from '../pages/community/CommunityPage';
+import { ModerationPage } from '../pages/moderation/ModerationPage';
 
 // Shell Placeholders for downstream roles/features
-import { CommunityShell } from '../pages/placeholders/CommunityShell';
 import { TherapistShell } from '../pages/placeholders/TherapistShell';
-import { ModeratorShell } from '../pages/placeholders/ModeratorShell';
 import { AdminShell } from '../pages/placeholders/AdminShell';
 
 // Error Pages
@@ -59,7 +59,7 @@ export const AppRouter: React.FC = () => {
         <Route element={<ProtectedRoute allowedRoles={['HELP_SEEKER']} />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/moods" element={<MoodPage />} />
-          <Route path="/community" element={<CommunityShell />} />
+          <Route path="/community" element={<CommunityPage />} />
           <Route path="/therapists" element={<DashboardPage />} />
         </Route>
 
@@ -72,8 +72,8 @@ export const AppRouter: React.FC = () => {
 
         {/* Moderator Specific Routes */}
         <Route element={<ProtectedRoute allowedRoles={['MODERATOR', 'ADMIN']} />}>
-          <Route path="/moderation" element={<ModeratorShell />} />
-          <Route path="/moderation/reports" element={<ModeratorShell />} />
+          <Route path="/moderation" element={<ModerationPage />} />
+          <Route path="/moderation/reports" element={<ModerationPage />} />
         </Route>
 
         {/* Admin Specific Routes */}

@@ -175,6 +175,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               <ClipboardList className="w-4 h-4 text-slate-600" />
               <span>Audit Logs</span>
             </NavLink>
+            <NavLink
+              to="/moderation"
+              onClick={onClose}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition ${
+                  isActive ? 'bg-amber-50 text-amber-800 font-semibold shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                }`
+              }
+            >
+              <ShieldAlert className="w-4 h-4 text-purple-600" />
+              <span>Moderation Queue</span>
+            </NavLink>
           </>
         );
       default:
