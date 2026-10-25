@@ -23,8 +23,9 @@ export const authApi = {
     return response.data;
   },
 
-  async setupMfa(): Promise<MfaSetupResponse> {
-    const response = await apiClient.post<MfaSetupResponse>('/auth/mfa/setup');
+  async setupMfa(token?: string): Promise<MfaSetupResponse> {
+    const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
+    const response = await apiClient.post<MfaSetupResponse>('/auth/mfa/setup', {}, { headers });
     return response.data;
   },
 

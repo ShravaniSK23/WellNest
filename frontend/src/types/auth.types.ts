@@ -88,6 +88,15 @@ export interface MfaSetupResponse {
   qrCodeUrl: string;
 }
 
+export interface MfaPendingState {
+  isPending: boolean;
+  mfaPendingToken: string;
+  userId: string;
+  sessionId: string;
+  role?: UserRole;
+  isEnrollmentRequired?: boolean;
+}
+
 export interface MfaVerifyPayload {
   userId: string;
   sessionId: string;

@@ -104,4 +104,59 @@ describe('MfaPromptModal Component', () => {
     fireEvent.click(cancelBtn);
     expect(mockCancelMfa).toHaveBeenCalled();
   });
+
+  it('renders MFA setup with QR code and manual key when enrollment is required for role', async () => {
+    const authApiModule = await import('../api/authApi');
+    vi.spyOn(authApiModule.authApi, 'setupMfa').mockResolvedValueOnce({
+      secret: 'SECRETKEY123456',
+      qrCodeUrl: 'data:image/png;base64,mockqrcode',
+    });
+
+    vi.spyOn(AuthContextModule, 'useAuth').mockReturnValue({
+      user: null,
+      token: null,
+      isAuthenticated: false,
+      isLoading: false,
+      mfaPending: {
+        isPending: true,
+        mfaPendingToken: 'mock-jwt-token',
+        userId: 'u-therapist-1',
+        sessionId: 's-therapist-1',
+        role: 'THERAPIST',
+        isEnrollmentRequired: true,
+      },
+      sessionExpired: false,
+      sessionExpiryReason: null,
+      login: vi.fn(),
+      verifyMfa: mockVerifyMfa,
+      cancelMfa: mockCancelMfa,
+      register: vi.fn(),
+      logout: vi.fn(),
+      refreshProfile: vi.fn(),
+      dismissSessionExpired: vi.fn(),
+    });
+
+    render(<MfaPromptModal />);
+
+    expect(screen.getByTestId('mfa-prompt-modal-backdrop')).toBeInTheDocument();
+    expect(screen.getByText('Set Up Two-Factor Authentication')).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByTestId('mfa-qrcode-image')).toBeInTheDocument();
+      expect(screen.getByText('SECRETKEY123456')).toBeInTheDocument();
+      expect(screen.getByTestId('copy-mfa-secret-btn')).toBeInTheDocument();
+    });
+
+    // Enter 6 digit code and submit
+    const input = screen.getByPlaceholderText('000000');
+    fireEvent.change(input, { target: { value: '654321' } });
+
+    const submitBtn = screen.getByTestId('submit-mfa-code-btn');
+    expect(submitBtn).toHaveTextContent('Verify & Complete Setup');
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(mockVerifyMfa).toHaveBeenCalledWith('654321');
+    });
+  });
 });
