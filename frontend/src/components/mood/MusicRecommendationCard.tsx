@@ -1,6 +1,7 @@
 import React from 'react';
 import { Music, Headphones, ExternalLink } from 'lucide-react';
 import type { MusicRecommendation } from '../../types/mood.types';
+import { resolveMusicVideoUrl } from '../../constants/moodMusic';
 
 interface MusicRecommendationCardProps {
   recommendation: MusicRecommendation | null;
@@ -12,6 +13,8 @@ export const MusicRecommendationCard: React.FC<MusicRecommendationCardProps> = (
   className = '',
 }) => {
   if (!recommendation) return null;
+
+  const targetUrl = resolveMusicVideoUrl(recommendation.moodEmoji, recommendation.playlistUrl);
 
   return (
     <div
@@ -46,7 +49,7 @@ export const MusicRecommendationCard: React.FC<MusicRecommendationCardProps> = (
         </div>
 
         <a
-          href={recommendation.playlistUrl}
+          href={targetUrl}
           target="_blank"
           rel="noopener noreferrer"
           data-testid="music-playlist-link"
