@@ -58,7 +58,7 @@ describe('MoodPage Component', () => {
         moodEmoji: '😀',
         playlistName: 'Upbeat Joy',
         genre: 'Acoustic Pop',
-        playlistUrl: 'https://music.wellnest.org/playlists/upbeat-joy',
+        playlistUrl: 'https://www.youtube.com/watch?v=ZbZSe6N_BXs',
       },
       quote: { quote: 'Every day is a fresh beginning.', author: 'Anonymous' },
       isEdit: false,
@@ -93,6 +93,10 @@ describe('MoodPage Component', () => {
       expect(screen.getByTestId('music-recommendation-card')).toBeInTheDocument();
       expect(screen.getByTestId('music-playlist-name')).toHaveTextContent('Upbeat Joy');
       expect(screen.getByTestId('music-genre')).toHaveTextContent('Acoustic Pop');
+      expect(screen.getByTestId('music-playlist-link')).toHaveAttribute(
+        'href',
+        'https://www.youtube.com/watch?v=ZbZSe6N_BXs'
+      );
       // Success alert appears
       expect(screen.getByTestId('mood-success-alert')).toBeInTheDocument();
     });
@@ -124,7 +128,7 @@ describe('MoodPage Component', () => {
         moodEmoji: '😌',
         playlistName: 'Mindful Serenity',
         genre: 'Instrumental',
-        playlistUrl: 'https://music.wellnest.org/playlists/mindful-serenity',
+        playlistUrl: 'https://www.youtube.com/watch?v=WNcsUNKlAKw',
       },
       quote: { quote: 'Be present.', author: 'Eckhart Tolle' },
       isEdit: true,

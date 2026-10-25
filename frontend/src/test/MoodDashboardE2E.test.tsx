@@ -37,7 +37,7 @@ describe('Mood Tracking & Wellness Dashboard E2E Integration Flow', () => {
         moodEmoji: '😊',
         playlistName: 'Calm & Peaceful',
         genre: 'Ambient Chill',
-        playlistUrl: 'https://music.wellnest.org/playlists/calm-peaceful',
+        playlistUrl: 'https://www.youtube.com/watch?v=V1bFr2SWP1I',
       },
       quote: { quote: 'Peace comes from within.', author: 'Buddha' },
       isEdit: false,
