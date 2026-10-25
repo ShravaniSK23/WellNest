@@ -4,18 +4,14 @@ import type {
   UserRole,
   LoginPayload,
   RegisterPayload,
+  MfaPendingState,
+  LoginSuccessResponse,
 } from '../types/auth.types';
 import { authApi } from '../api/authApi';
 import { userApi } from '../api/userApi';
 import { subscribeToSessionExpiry } from '../api/apiClient';
 
-interface MfaPendingState {
-  isPending: boolean;
-  mfaPendingToken: string;
-  userId: string;
-  sessionId: string;
-  role?: UserRole;
-}
+export type { MfaPendingState };
 
 export interface AuthContextType {
   user: UserProfile | null;
@@ -118,7 +114,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [clearAuthData]);
 
   const login = async (credentials: LoginPayload) => {
-    const result = await authApi.login(credentials);
+    let result: LoginSuccessResponse;
+    try {
+      result = await authApi.login(credentials);
+    } catch (err: any) {
+      const apiError = err.response?.data?.error;
+      const mfaToken = apiError?.details?.mfaToken || apiError?.details?.mfaPendingToken;
+      if (err.response?.status === 401 && apiError?.code === 'MFA_REQUIRED' && mfaToken) {
+        const payload = parseJwtPayload(mfaToken);
+        setMfaPending({
+          isPending: true,
+          mfaPendingToken: mfaToken,
+          userId: payload?.userId || '',
+          sessionId: payload?.sessionId || '',
+          role: payload?.role as UserRole,
+          isEnrollmentRequired: true,
+        });
+        return { mfaRequired: true };
+      }
+      throw err;
+    }
 
     if (result.mfaRequired && result.mfaPendingToken) {
       const payload = parseJwtPayload(result.mfaPendingToken);
@@ -128,6 +143,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         userId: payload?.userId || '',
         sessionId: payload?.sessionId || '',
         role: payload?.role as UserRole,
+        isEnrollmentRequired: false,
       });
       return { mfaRequired: true };
     }

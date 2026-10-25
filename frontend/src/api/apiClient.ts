@@ -32,7 +32,7 @@ export const notifySessionExpiry = (reason?: string) => {
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem('wellnest_token');
-    if (token && config.headers) {
+    if (token && config.headers && !config.headers.Authorization) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -44,10 +44,12 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError<ApiErrorResponse>) => {
-    const isLoginEndpoint = error.config?.url?.includes('/auth/login');
-    const isRegisterEndpoint = error.config?.url?.includes('/auth/register');
+    const isAuthEndpoint =
+      error.config?.url?.includes('/auth/login') ||
+      error.config?.url?.includes('/auth/register') ||
+      error.config?.url?.includes('/auth/mfa');
 
-    if (error.response?.status === 401 && !isLoginEndpoint && !isRegisterEndpoint) {
+    if (error.response?.status === 401 && !isAuthEndpoint) {
       const errorCode = error.response.data?.error?.code;
       const message = error.response.data?.error?.message || 'Your session has expired. Please log in again.';
 

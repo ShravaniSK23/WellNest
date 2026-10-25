@@ -82,6 +82,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               <Search className="w-4 h-4 text-indigo-600" />
               <span>Find Therapists</span>
             </NavLink>
+            <NavLink
+              to="/appointments"
+              onClick={onClose}
+              data-testid="sidebar-my-appointments-link"
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition ${
+                  isActive ? 'bg-brand-50 text-brand-700 font-semibold shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                }`
+              }
+            >
+              <Calendar className="w-4 h-4 text-brand-600" />
+              <span>My Appointments</span>
+            </NavLink>
           </>
         );
 
@@ -92,6 +105,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             <NavLink
               to="/therapist/portal"
               onClick={onClose}
+              data-testid="sidebar-therapist-portal-link"
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition ${
                   isActive ? 'bg-indigo-50 text-indigo-700 font-semibold shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
@@ -99,7 +113,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               }
             >
               <Calendar className="w-4 h-4 text-indigo-600" />
-              <span>Appointments</span>
+              <span>Appointments &amp; Requests</span>
+            </NavLink>
+            <NavLink
+              to="/therapist/availability"
+              onClick={onClose}
+              data-testid="sidebar-therapist-availability-link"
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition ${
+                  isActive ? 'bg-indigo-50 text-indigo-700 font-semibold shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                }`
+              }
+            >
+              <Sliders className="w-4 h-4 text-teal-600" />
+              <span>14-Day Availability</span>
             </NavLink>
             <NavLink
               to="/therapist/credentials"
